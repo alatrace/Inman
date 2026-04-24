@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Compass Acquisition Timeline — Inman</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: #fff; padding: 24px; }
+  .tl-wrap { font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif; color: #232323; max-width: 970px; margin: 0 auto; }
+  .kicker { font-size: 11px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: #0a84ff; margin-bottom: 6px; }
+  .stat-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin-bottom: 1.5rem; }
+  .stat-card { background: #eff8fb; padding: 12px 14px; border-left: 3px solid #0a84ff; }
+  .stat-num { font-size: 22px; font-weight: 700; color: #161a48; display: block; line-height: 1; margin-bottom: 3px; }
+  .stat-desc { font-size: 10px; color: #444; line-height: 1.4; }
+  .legend-row { display: flex; gap: 16px; margin-bottom: 1.25rem; flex-wrap: wrap; }
+  .legend-item { display: flex; align-items: center; gap: 6px; font-size: 11px; color: #444; }
+  .legend-dot { width: 9px; height: 9px; border-radius: 50%; flex-shrink: 0; }
+  .tl-section { margin-bottom: 1.75rem; }
+  .tl-year { font-size: 11px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: #fff; background: #161a48; display: inline-block; padding: 3px 10px; margin-bottom: 0.75rem; }
+  .tl-items { border-left: 2px solid #d3d3d3; margin-left: 7px; padding-left: 16px; display: flex; flex-direction: column; gap: 8px; }
+  .tl-item { display: grid; grid-template-columns: 60px minmax(0,1fr); gap: 10px; align-items: start; position: relative; }
+  .tl-item::before { content: ''; width: 7px; height: 7px; border-radius: 50%; position: absolute; left: -20px; top: 5px; background: #d3d3d3; }
+  .tl-item.major::before { background: #0a84ff; width: 9px; height: 9px; left: -21px; }
+  .tl-item.strategy::before { background: #161a48; width: 9px; height: 9px; left: -21px; }
+  .tl-item.milestone::before { background: #da3832; width: 9px; height: 9px; left: -21px; }
+  .tl-month { font-size: 10px; font-weight: 600; color: #797979; padding-top: 3px; text-transform: uppercase; letter-spacing: 0.04em; }
+  .tl-card { padding: 8px 12px; border-left: 2px solid #d3d3d3; }
+  .tl-card.major { border-left-color: #0a84ff; background: #eff8fb; }
+  .tl-card.strategy { border-left-color: #161a48; background: #f3f3f3; }
+  .tl-card.milestone { border-left-color: #da3832; background: #fff5f5; }
+  .tl-badge { display: inline-block; font-size: 9px; font-weight: 600; padding: 2px 6px; margin-bottom: 4px; text-transform: uppercase; letter-spacing: 0.05em; }
+  .badge-region { background: #f3f3f3; color: #444; }
+  .badge-blue { background: #0a84ff; color: #fff; }
+  .badge-dark { background: #161a48; color: #fff; }
+  .badge-red { background: #da3832; color: #fff; }
+  .tl-name { font-size: 12px; font-weight: 700; color: #232323; margin-bottom: 2px; line-height: 1.3; }
+  .tl-card.major .tl-name { color: #161a48; }
+  .tl-card.milestone .tl-name { color: #da3832; }
+  .tl-desc { font-size: 11px; color: #444; line-height: 1.45; }
+  .tl-quote { font-size: 10px; font-style: italic; color: #0a84ff; margin-top: 4px; border-left: 2px solid #0a84ff; padding-left: 6px; line-height: 1.4; }
+  .attribution { margin-top: 1.5rem; padding-top: 10px; border-top: 1px solid #d3d3d3; font-size: 10px; color: #797979; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px; }
+  .attribution-badge { background: #161a48; color: #fff; font-size: 9px; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; padding: 3px 8px; }
+</style>
+</head>
+<body>
+<div class="tl-wrap">
+  <p class="kicker">Compass International Holdings · 2024–2026</p>
+  <div class="stat-grid">
+    <div class="stat-card"><span class="stat-num">10+</span><span class="stat-desc">Major acquisitions, 2024–2026</span></div>
+    <div class="stat-card"><span class="stat-num">$2B+</span><span class="stat-desc">Spent on brokerage acquisitions</span></div>
+    <div class="stat-card"><span class="stat-num">340K</span><span class="stat-desc">Agents post-Anywhere merger</span></div>
+    <div class="stat-card"><span class="stat-num">~$10B</span><span class="stat-desc">Combined company valuation</span></div>
+  </div>
+  <div class="legend-row">
+    <div class="legend-item"><div class="legend-dot" style="background:#d3d3d3"></div>Regional acquisition</div>
+    <div class="legend-item"><div class="legend-dot" style="background:#0a84ff"></div>Major acquisition</div>
+    <div class="legend-item"><div class="legend-dot" style="background:#161a48"></div>Product / strategy</div>
+    <div class="legend-item"><div class="legend-dot" style="background:#da3832"></div>Milestone / legal</div>
+  </div>
+
+  <div class="tl-section">
+    <div class="tl-year">2024</div>
+    <div class="tl-items">
+      <div class="tl-item"><div class="tl-month">April</div><div class="tl-card"><span class="tl-badge badge-region">Gulf Coast</span><div class="tl-name">Latter & Blum</div><div class="tl-desc">New Orleans-based; 3,200+ agents, $4B+ annual sales.</div></div></div>
+      <div class="tl-item"><div class="tl-month">May</div><div class="tl-card"><span class="tl-badge badge-region">Tennessee</span><div class="tl-name">Parks Real Estate</div><div class="tl-desc">Nashville-area luxury brokerage; ~1,500 agents added.</div></div></div>
+      <div class="tl-item milestone"><div class="tl-month">Oct</div><div class="tl-card milestone"><span class="tl-badge badge-red">On the record</span><div class="tl-name">CFO announces "30/30 vision" on earnings call</div><div class="tl-desc">"Exiting '26" deadline set publicly. One year later, Reffkin refuses to discuss the goal on record.</div></div></div>
+      <div class="tl-item strategy"><div class="tl-month">Nov</div><div class="tl-card strategy"><span class="tl-badge badge-dark">Product launch</span><div class="tl-name">3-phase marketing strategy introduced</div><div class="tl-desc">Private Exclusives program launches — phase one listings available only to buyers working with a Compass agent.</div></div></div>
+      <div class="tl-item major"><div class="tl-month">Dec</div><div class="tl-card major"><span class="tl-badge badge-blue">Luxury · Chicago · $444M</span><div class="tl-name">@properties + Christie's International</div><div class="tl-desc">#1 brokerage in Chicago by sales volume. Adds Christie's luxury brand globally.</div></div></div>
+    </div>
+  </div>
+
+  <div class="tl-section">
+    <div class="tl-year">2025</div>
+    <div class="tl-items">
+      <div class="tl-item"><div class="tl-month">Jan</div><div class="tl-card"><span class="tl-badge badge-blue">Closes</span><div class="tl-name">@properties + Christie's closes</div><div class="tl-desc">Contributes 10.4% of Q1 2025 revenue growth.</div></div></div>
+      <div class="tl-item strategy"><div class="tl-month">Feb</div><div class="tl-card strategy"><span class="tl-badge badge-dark">Product launch</span><div class="tl-name">Compass One client portal launches</div><div class="tl-desc">Bakes the 3-phase strategy into every seller conversation. Buyers without a Compass agent lose access to exclusive inventory.</div><div class="tl-quote">"If you're not working with Compass, you're missing the market." — Rory Golod</div></div></div>
+      <div class="tl-item"><div class="tl-month">Feb</div><div class="tl-card"><span class="tl-badge badge-region">Luxury · D.C.</span><div class="tl-name">Washington Fine Properties</div><div class="tl-desc">150-agent luxury firm; bolsters D.C. market where Compass already held 22% share.</div></div></div>
+      <div class="tl-item milestone"><div class="tl-month">March</div><div class="tl-card milestone"><span class="tl-badge badge-red">Legal battle</span><div class="tl-name">Seattle private listings blitz</div><div class="tl-desc">Compass instructs agents to break NWMLS pre-marketing rules, promising to cover fines. NWMLS grants a week of "clemency." Compass keeps going.</div></div></div>
+      <div class="tl-item milestone"><div class="tl-month">April</div><div class="tl-card milestone"><span class="tl-badge badge-red">Lawsuit filed</span><div class="tl-name">Compass sues NWMLS</div><div class="tl-desc">Antitrust suit alleging anticompetitive practices and harm to Compass clients.</div></div></div>
+      <div class="tl-item milestone"><div class="tl-month">June</div><div class="tl-card milestone"><span class="tl-badge badge-red">Lawsuit filed</span><div class="tl-name">Compass sues Zillow</div><div class="tl-desc">Filed after Zillow moved to restrict certain Compass private listings from its platform.</div></div></div>
+      <div class="tl-item"><div class="tl-month">July</div><div class="tl-card"><span class="tl-badge badge-region">Colorado</span><div class="tl-name">PorchLight Real Estate Group</div><div class="tl-desc">Denver/Boulder; $922M in 2024 sales volume.</div></div></div>
+      <div class="tl-item"><div class="tl-month">Sept</div><div class="tl-card"><span class="tl-badge badge-region">Colorado</span><div class="tl-name">Colorado Home Realty</div><div class="tl-desc">Littleton-based; $617M in 2024 sales. Second Denver deal in two months.</div></div></div>
+      <div class="tl-item major"><div class="tl-month">Sept</div><div class="tl-card major"><span class="tl-badge badge-blue">Mega-merger · $1.6B</span><div class="tl-name">Anywhere Real Estate — announced</div><div class="tl-desc">Adds Coldwell Banker, Century 21, Sotheby's, ERA, Corcoran, Better Homes & Gardens.</div></div></div>
+      <div class="tl-item milestone"><div class="tl-month">Dec</div><div class="tl-card milestone"><span class="tl-badge badge-red">Antitrust warning</span><div class="tl-name">Senators Warren + Wyden write to DOJ</div><div class="tl-desc">Capitol Forum finds "potentially illegal overlaps" in 12+ states. DOJ takes no action.</div></div></div>
+    </div>
+  </div>
+
+  <div class="tl-section">
+    <div class="tl-year">2026</div>
+    <div class="tl-items">
+      <div class="tl-item major"><div class="tl-month">Jan</div><div class="tl-card major"><span class="tl-badge badge-blue">Merger closes</span><div class="tl-name">Anywhere Real Estate — closes</div><div class="tl-desc">Compass International Holdings formed. ~340,000 agents. Sales volume 3× nearest competitor. DOJ clears without second review.</div></div></div>
+      <div class="tl-item milestone"><div class="tl-month">Feb</div><div class="tl-card milestone"><span class="tl-badge badge-red">Partnership</span><div class="tl-name">Rocket Companies + Redfin alliance</div><div class="tl-desc">Redfin displays Compass listings prominently and routes buyer leads to Compass listing agents.</div></div></div>
+      <div class="tl-item milestone"><div class="tl-month">March</div><div class="tl-card milestone"><span class="tl-badge badge-red">Lawsuit dropped</span><div class="tl-name">Compass drops Zillow suit</div><div class="tl-desc">Withdrawn as Rocket/Redfin partnership shifts the competitive dynamic in Compass's favor.</div></div></div>
+      <div class="tl-item"><div class="tl-month">March</div><div class="tl-card"><span class="tl-badge badge-region">Dallas</span><div class="tl-name">Rogers Healy and Associates</div><div class="tl-desc">Dallas-based luxury firm; most recent acquisition on record.</div></div></div>
+      <div class="tl-item milestone"><div class="tl-month">April</div><div class="tl-card milestone"><span class="tl-badge badge-red">CPC report</span><div class="tl-name">New data: 30–40% market share in five cities</div><div class="tl-desc">Consumer Policy Center finds New Compass already at or past 30/30 target. D.C. double-ending rate hits 41%.</div></div></div>
+
+      <div class="tl-item major"><div class="tl-month">April</div><div class="tl-card major"><span class="tl-badge badge-blue">National expansion</span><div class="tl-name">MRED partnership — national private listing network</div><div class="tl-desc">Compass partners with MRED, the 48,000-subscriber Chicagoland MLS, to build a national private listing network. Compass subsidizes membership for up to 100,000 agents and commits its full inventory of private exclusives and coming-soon listings. MRED pledges to protect participating agents from portal retaliation.</div></div></div>
+
+    </div>
+  </div>
+
+  <div class="attribution">
+    <div>Sources: CPC, Capitol Forum, SEC filings, earnings call transcripts, Inman reporting · April 2026</div>
+    <div class="attribution-badge">Built for Inman with Claude</div>
+  </div>
+</div>
+</body>
+</html>

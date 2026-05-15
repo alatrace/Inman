@@ -1,0 +1,591 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Brokerage Consolidation Timeline — Inman</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=DM+Serif+Display:ital@0;1&display=swap" rel="stylesheet">
+<style>
+  /* NOTE FOR DEV TEAM: Replace DM Sans with HEX Franklin and DM Serif Display with Harriet Display per Inman brand standards */
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: #fff;
+    color: #111;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  .tl-wrap {
+    max-width: 780px;
+    margin: 0 auto;
+    padding: 2.5rem 1.5rem 4rem;
+  }
+
+  /* Header */
+  .tl-eyebrow {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: #0a84ff;
+    margin-bottom: 8px;
+  }
+
+  .tl-title {
+    font-family: 'DM Serif Display', serif;
+    font-size: 26px;
+    color: #111;
+    margin: 0 0 6px;
+    line-height: 1.2;
+  }
+
+  .tl-sub {
+    font-size: 13px;
+    color: #666;
+    margin: 0 0 24px;
+    line-height: 1.5;
+  }
+
+  /* Legend */
+  .tl-legend {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px 20px;
+    margin-bottom: 24px;
+    padding: 12px 14px;
+    border: 0.5px solid #e0e0e0;
+    border-radius: 8px;
+    background: #f8f8f8;
+  }
+
+  .tl-legend-item {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    font-size: 12px;
+    color: #555;
+  }
+
+  .tl-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+
+  /* Filter buttons */
+  .tl-filter {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-bottom: 28px;
+  }
+
+  .tl-btn {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 12px;
+    font-weight: 500;
+    padding: 5px 13px;
+    border-radius: 20px;
+    border: 0.5px solid #ccc;
+    background: #fff;
+    color: #555;
+    cursor: pointer;
+    transition: all 0.15s;
+  }
+
+  .tl-btn:hover {
+    background: #f0f0f0;
+    color: #111;
+  }
+
+  .tl-btn.active {
+    background: #161a48;
+    color: #fff;
+    border-color: #161a48;
+  }
+
+  /* Year labels */
+  .tl-year {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: #aaa;
+    margin: 28px 0 12px 52px;
+  }
+
+  /* Timeline track */
+  .tl-track {
+    position: relative;
+  }
+
+  .tl-line {
+    position: absolute;
+    left: 20px;
+    top: 0;
+    bottom: 0;
+    width: 1px;
+    background: #e0e0e0;
+  }
+
+  /* Timeline items */
+  .tl-item {
+    display: flex;
+    align-items: flex-start;
+    margin-bottom: 4px;
+    position: relative;
+    transition: opacity 0.2s;
+  }
+
+  .tl-item.hidden {
+    display: none;
+  }
+
+  .tl-node {
+    width: 41px;
+    flex-shrink: 0;
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    padding-top: 14px;
+    position: relative;
+    z-index: 1;
+  }
+
+  .tl-circle {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    border: 2px solid #fff;
+  }
+
+  /* Cards */
+  .tl-card {
+    flex: 1;
+    border: 0.5px solid #e0e0e0;
+    border-radius: 8px;
+    padding: 10px 14px 11px;
+    background: #fff;
+    cursor: pointer;
+    transition: border-color 0.15s;
+    margin-bottom: 0;
+  }
+
+  .tl-card:hover {
+    border-color: #bbb;
+  }
+
+  .tl-card-top {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 8px;
+    margin-bottom: 3px;
+  }
+
+  .tl-date {
+    font-size: 11px;
+    font-weight: 600;
+    color: #999;
+    letter-spacing: 0.03em;
+    flex-shrink: 0;
+  }
+
+  .tl-status {
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    padding: 2px 8px;
+    border-radius: 20px;
+    flex-shrink: 0;
+  }
+
+  .tl-companies {
+    font-size: 13px;
+    font-weight: 600;
+    color: #111;
+    margin-bottom: 3px;
+  }
+
+  .tl-detail {
+    font-size: 12px;
+    color: #555;
+    line-height: 1.5;
+  }
+
+  .tl-detail.collapsed {
+    display: none;
+  }
+
+  .tl-more {
+    font-size: 11px;
+    color: #0a84ff;
+    cursor: pointer;
+    margin-top: 4px;
+    display: inline-block;
+  }
+
+  /* Status color schemes */
+  .s-regulatory .tl-circle { background: #888; }
+  .s-regulatory .tl-status { background: #f1f1f1; color: #666; }
+  .s-regulatory .tl-card { border-left: 2px solid #888; border-radius: 0 8px 8px 0; }
+
+  .s-signed .tl-circle { background: #378add; }
+  .s-signed .tl-status { background: #e6f1fb; color: #185fa5; }
+
+  .s-announced .tl-circle { background: #0a84ff; }
+  .s-announced .tl-status { background: #dbeeff; color: #0a5fb0; }
+
+  .s-closed .tl-circle { background: #161a48; }
+  .s-closed .tl-status { background: #161a48; color: #fff; }
+
+  .s-pending .tl-circle { background: #0a84ff; }
+  .s-pending .tl-status { background: #dbeeff; color: #0a5fb0; }
+
+  .s-denied .tl-circle { background: #ff0a0a; }
+  .s-denied .tl-status { background: #fcebeb; color: #a32d2d; }
+
+  .s-nondeal .tl-circle { background: #ff0a0a; }
+  .s-nondeal .tl-status { background: #fcebeb; color: #a32d2d; }
+
+  .s-capital .tl-circle { background: #ef9f27; }
+  .s-capital .tl-status { background: #faeeda; color: #854f0b; }
+
+  @media (max-width: 600px) {
+    .tl-wrap { padding: 1.5rem 1rem 3rem; }
+    .tl-title { font-size: 20px; }
+    .tl-filter { gap: 4px; }
+    .tl-btn { font-size: 11px; padding: 4px 10px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="tl-wrap">
+
+  <div class="tl-eyebrow">Inman Special Report</div>
+  <h1 class="tl-title">A timeline of brokerage consolidation</h1>
+  <p class="tl-sub">Major M&amp;A, capital moves and regulatory milestones in residential real estate, March 2024–May 2026. Click any entry to expand details.</p>
+
+  <div class="tl-legend">
+    <div class="tl-legend-item"><div class="tl-dot" style="background:#161a48"></div> Closed</div>
+    <div class="tl-legend-item"><div class="tl-dot" style="background:#0a84ff"></div> Announced / Pending</div>
+    <div class="tl-legend-item"><div class="tl-dot" style="background:#378add"></div> Agreement signed</div>
+    <div class="tl-legend-item"><div class="tl-dot" style="background:#ef9f27"></div> Capital partnership</div>
+    <div class="tl-legend-item"><div class="tl-dot" style="background:#ff0a0a"></div> Reported; did not close</div>
+    <div class="tl-legend-item"><div class="tl-dot" style="background:#888"></div> Regulatory backdrop</div>
+  </div>
+
+  <div class="tl-filter">
+    <button class="tl-btn active" onclick="filterAll(this)">All</button>
+    <button class="tl-btn" onclick="filterCo(this,'compass')">Compass</button>
+    <button class="tl-btn" onclick="filterCo(this,'howard')">Howard Hanna</button>
+    <button class="tl-btn" onclick="filterCo(this,'rocket')">Rocket / Redfin</button>
+    <button class="tl-btn" onclick="filterCo(this,'kw')">Keller Williams</button>
+    <button class="tl-btn" onclick="filterCo(this,'real')">Real / REMAX</button>
+    <button class="tl-btn" onclick="filterCo(this,'exp')">eXp / NextHome</button>
+    <button class="tl-btn" onclick="filterCo(this,'anywhere')">Anywhere</button>
+    <button class="tl-btn" onclick="filterCo(this,'nar')">NAR / Regulatory</button>
+  </div>
+
+  <div class="tl-track">
+    <div class="tl-line"></div>
+
+    <div class="tl-year">2024</div>
+
+    <div class="tl-item s-regulatory" data-co="nar">
+      <div class="tl-node"><div class="tl-circle"></div></div>
+      <div class="tl-card" onclick="toggle(this)">
+        <div class="tl-card-top"><span class="tl-date">March 15, 2024</span><span class="tl-status">Regulatory backdrop</span></div>
+        <div class="tl-companies">NAR — Proposed $418M settlement announced</div>
+        <div class="tl-detail collapsed">Sets up industrywide rule changes and new liability exposure for brokerages and agents. The starting gun for the consolidation era. Rule changes would take effect Aug. 17, 2024.</div>
+        <span class="tl-more">Show more ↓</span>
+      </div>
+    </div>
+
+    <div class="tl-item s-closed" data-co="compass">
+      <div class="tl-node"><div class="tl-circle"></div></div>
+      <div class="tl-card" onclick="toggle(this)">
+        <div class="tl-card-top"><span class="tl-date">April 3, 2024</span><span class="tl-status">Closed</span></div>
+        <div class="tl-companies">Compass acquires Latter &amp; Blum</div>
+        <div class="tl-detail collapsed">Century-old Gulf Coast brokerage with ~3,100 agents and $3.6B in 2023 volume. Compass enters Louisiana and Mississippi markets for the first time.</div>
+        <span class="tl-more">Show more ↓</span>
+      </div>
+    </div>
+
+    <div class="tl-item s-closed" data-co="compass">
+      <div class="tl-node"><div class="tl-circle"></div></div>
+      <div class="tl-card" onclick="toggle(this)">
+        <div class="tl-card-top"><span class="tl-date">May 13, 2024</span><span class="tl-status">Closed</span></div>
+        <div class="tl-companies">Compass acquires Parks Real Estate</div>
+        <div class="tl-detail collapsed">Tennessee's top brokerage by volume, with ~1,500 agents and $6.25B in 2023 sales. Compass becomes market leader in Tennessee, representing one in four homes sold statewide.</div>
+        <span class="tl-more">Show more ↓</span>
+      </div>
+    </div>
+
+    <div class="tl-item s-regulatory" data-co="nar">
+      <div class="tl-node"><div class="tl-circle"></div></div>
+      <div class="tl-card" onclick="toggle(this)">
+        <div class="tl-card-top"><span class="tl-date">Aug. 17, 2024</span><span class="tl-status">Regulatory backdrop</span></div>
+        <div class="tl-companies">NAR — Commission rule changes take effect</div>
+        <div class="tl-detail collapsed">Offers of buyer compensation removed from MLSs nationwide. Written buyer agreements required. The operational reality of the post-settlement era begins.</div>
+        <span class="tl-more">Show more ↓</span>
+      </div>
+    </div>
+
+    <div class="tl-item s-closed" data-co="howard">
+      <div class="tl-node"><div class="tl-circle"></div></div>
+      <div class="tl-card" onclick="toggle(this)">
+        <div class="tl-card-top"><span class="tl-date">Oct. 29, 2024</span><span class="tl-status">Closed</span></div>
+        <div class="tl-companies">Howard Hanna merges with Big Hill Realty</div>
+        <div class="tl-detail collapsed">Dayton, Ohio firm joins Howard Hanna's growing regional network as part of a burst of acquisitions in late 2024.</div>
+        <span class="tl-more">Show more ↓</span>
+      </div>
+    </div>
+
+    <div class="tl-item s-closed" data-co="howard">
+      <div class="tl-node"><div class="tl-circle"></div></div>
+      <div class="tl-card" onclick="toggle(this)">
+        <div class="tl-card-top"><span class="tl-date">Oct. 30, 2024</span><span class="tl-status">Closed</span></div>
+        <div class="tl-companies">Howard Hanna | Allen Tate acquires The Alliance Group Realty</div>
+        <div class="tl-detail collapsed">Enters South Carolina's Hilton Head and Bluffton market. Part of Howard Hanna's Southeast expansion strategy.</div>
+        <span class="tl-more">Show more ↓</span>
+      </div>
+    </div>
+
+    <div class="tl-item s-announced" data-co="compass">
+      <div class="tl-node"><div class="tl-circle"></div></div>
+      <div class="tl-card" onclick="toggle(this)">
+        <div class="tl-card-top"><span class="tl-date">Dec. 2, 2024</span><span class="tl-status">Announced</span></div>
+        <div class="tl-companies">Compass acquires @properties, Christie's International Real Estate &amp; Ansley</div>
+        <div class="tl-detail collapsed">$444M deal. Merger agreement was signed Nov. 25; publicly announced Dec. 2. Adds the 8th-largest U.S. brokerage by volume, Christie's global network of 100+ affiliates across 50 countries, and title and mortgage assets (Proper Title, Proper Rate). Compass's largest acquisition to that point. Closed Jan. 13, 2025.</div>
+        <span class="tl-more">Show more ↓</span>
+      </div>
+    </div>
+
+    <div class="tl-year">2025 — Q1</div>
+
+    <div class="tl-item s-closed" data-co="compass">
+      <div class="tl-node"><div class="tl-circle"></div></div>
+      <div class="tl-card" onclick="toggle(this)">
+        <div class="tl-card-top"><span class="tl-date">Jan. 13, 2025</span><span class="tl-status">Closed</span></div>
+        <div class="tl-companies">Compass — @properties / Christie's / Ansley acquisition closes</div>
+        <div class="tl-detail collapsed">Confirmed by SEC pro forma filings. Christie's International Real Estate Sereno (Northern California) divested immediately prior to close, becoming an independent brokerage while maintaining network affiliation.</div>
+        <span class="tl-more">Show more ↓</span>
+      </div>
+    </div>
+
+    <div class="tl-item s-closed" data-co="howard">
+      <div class="tl-node"><div class="tl-circle"></div></div>
+      <div class="tl-card" onclick="toggle(this)">
+        <div class="tl-card-top"><span class="tl-date">Jan. 15, 2025</span><span class="tl-status">Closed</span></div>
+        <div class="tl-companies">Howard Hanna merges with Home Experts Realty</div>
+        <div class="tl-detail collapsed">Ohio-based firm with ~400 agents. Part of Howard Hanna's continued regional consolidation strategy across the Midwest.</div>
+        <span class="tl-more">Show more ↓</span>
+      </div>
+    </div>
+
+    <div class="tl-item s-capital" data-co="kw">
+      <div class="tl-node"><div class="tl-circle"></div></div>
+      <div class="tl-card" onclick="toggle(this)">
+        <div class="tl-card-top"><span class="tl-date">March 3, 2025</span><span class="tl-status">Capital partnership</span></div>
+        <div class="tl-companies">Keller Williams — Stone Point Capital strategic partnership</div>
+        <div class="tl-detail collapsed">Stone Point takes a major ownership stake in KW alongside Gary Keller. Christopher Czarnecki named new CEO and President; Gary Keller remains executive chairman. Financial terms undisclosed. Stone Point also owns CoreLogic and holds stakes in Lone Wolf Technologies and other real estate technology companies.</div>
+        <span class="tl-more">Show more ↓</span>
+      </div>
+    </div>
+
+    <div class="tl-item s-signed" data-co="rocket">
+      <div class="tl-node"><div class="tl-circle"></div></div>
+      <div class="tl-card" onclick="toggle(this)">
+        <div class="tl-card-top"><span class="tl-date">March 9, 2025</span><span class="tl-status">Agreement signed</span></div>
+        <div class="tl-companies">Rocket / Redfin — merger agreement signed</div>
+        <div class="tl-detail collapsed">Agreement and Plan of Merger executed March 9 and filed with the SEC. Publicly announced via joint press release the following morning, March 10. The one-day gap between signing and announcement is confirmed by SEC filings from both companies.</div>
+        <span class="tl-more">Show more ↓</span>
+      </div>
+    </div>
+
+    <div class="tl-item s-announced" data-co="rocket">
+      <div class="tl-node"><div class="tl-circle"></div></div>
+      <div class="tl-card" onclick="toggle(this)">
+        <div class="tl-card-top"><span class="tl-date">March 10, 2025</span><span class="tl-status">Announced</span></div>
+        <div class="tl-companies">Rocket Companies to acquire Redfin</div>
+        <div class="tl-detail collapsed">All-stock deal, $1.75B equity value. Combines Rocket Mortgage — America's largest mortgage lender — with Redfin's search platform and ~50M monthly visitors. Rocket frames it as connecting search, agents and mortgage in a single consumer funnel. Closed July 1, 2025.</div>
+        <span class="tl-more">Show more ↓</span>
+      </div>
+    </div>
+
+    <div class="tl-item s-denied" data-co="compass">
+      <div class="tl-node"><div class="tl-circle"></div></div>
+      <div class="tl-card" onclick="toggle(this)">
+        <div class="tl-card-top"><span class="tl-date">March 13, 2025</span><span class="tl-status">Reported; denied</span></div>
+        <div class="tl-companies">Compass / HomeServices of America — talks reported, then denied</div>
+        <div class="tl-detail collapsed">WSJ reports Compass in "advanced talks" to acquire HomeServices of America, including Berkshire Hathaway HomeServices. Hours later, HomeServices CEO Gino Blefari categorically denies it: "No discussions, negotiations or agreements." Deal never materializes. The report came the same week as the Rocket/Redfin announcement — illustrating how fast the consolidation rumor mill was moving in March 2025.</div>
+        <span class="tl-more">Show more ↓</span>
+      </div>
+    </div>
+
+    <div class="tl-year">2025 — Q2</div>
+
+    <div class="tl-item s-nondeal" data-co="anywhere">
+      <div class="tl-node"><div class="tl-circle"></div></div>
+      <div class="tl-card" onclick="toggle(this)">
+        <div class="tl-card-top"><span class="tl-date">May 23, 2025</span><span class="tl-status">Approach reported; no deal</span></div>
+        <div class="tl-companies">Anywhere makes reported unsolicited bid for Douglas Elliman</div>
+        <div class="tl-detail collapsed">Bloomberg reports Anywhere offered $4+/share — roughly double Elliman's stock price at the time. Sources say Elliman was unlikely to accept. Neither company confirmed or denied the report. The approach came shortly after Anywhere named a new M&amp;A lead and signaled acquisition ambitions. Four months later, Anywhere itself was acquired by Compass.</div>
+        <span class="tl-more">Show more ↓</span>
+      </div>
+    </div>
+
+    <div class="tl-year">2025 — Q3</div>
+
+    <div class="tl-item s-closed" data-co="rocket">
+      <div class="tl-node"><div class="tl-circle"></div></div>
+      <div class="tl-card" onclick="toggle(this)">
+        <div class="tl-card-top"><span class="tl-date">July 1, 2025</span><span class="tl-status">Closed</span></div>
+        <div class="tl-companies">Rocket completes Redfin acquisition</div>
+        <div class="tl-detail collapsed">Redfin rebranded "Redfin Powered by Rocket." Rocket Preferred Pricing launched day of close — offering a 1-point rate reduction for buyers using both Redfin and Rocket Mortgage. Confirmed by SEC 8-K filed July 1, 2025.</div>
+        <span class="tl-more">Show more ↓</span>
+      </div>
+    </div>
+
+    <div class="tl-item s-closed" data-co="howard">
+      <div class="tl-node"><div class="tl-circle"></div></div>
+      <div class="tl-card" onclick="toggle(this)">
+        <div class="tl-card-top"><span class="tl-date">June 2025</span><span class="tl-status">Closed</span></div>
+        <div class="tl-companies">Howard Hanna acquires Marquee Realty</div>
+        <div class="tl-detail collapsed">Queens, New York-based firm. Part of Howard Hanna's push into the New York City metro market ahead of the Elegran acquisition later in the year.</div>
+        <span class="tl-more">Show more ↓</span>
+      </div>
+    </div>
+
+    <div class="tl-item s-closed" data-co="howard">
+      <div class="tl-node"><div class="tl-circle"></div></div>
+      <div class="tl-card" onclick="toggle(this)">
+        <div class="tl-card-top"><span class="tl-date">Aug. 26, 2025</span><span class="tl-status">Closed</span></div>
+        <div class="tl-companies">Howard Hanna acquires Coastal Properties</div>
+        <div class="tl-detail collapsed">Five offices across Hilton Head, Beaufort and Savannah. Marks Howard Hanna's official entry into Georgia; company now operates in 14 states. Builds on the October 2024 Alliance Group Realty acquisition in the same region.</div>
+        <span class="tl-more">Show more ↓</span>
+      </div>
+    </div>
+
+    <div class="tl-item s-announced" data-co="compass anywhere">
+      <div class="tl-node"><div class="tl-circle"></div></div>
+      <div class="tl-card" onclick="toggle(this)">
+        <div class="tl-card-top"><span class="tl-date">Sept. 22, 2025</span><span class="tl-status">Announced</span></div>
+        <div class="tl-companies">Compass to acquire Anywhere Real Estate</div>
+        <div class="tl-detail collapsed">All-stock transaction, ~$10B enterprise value including debt. Compass shareholders to own ~78%, Anywhere ~22%. Brands to remain separate: Coldwell Banker, Century 21, Sotheby's International Realty, Corcoran, ERA and Better Homes and Gardens Real Estate. Originally projected to close H2 2026; closed Jan. 9, 2026 — months ahead of schedule.</div>
+        <span class="tl-more">Show more ↓</span>
+      </div>
+    </div>
+
+    <div class="tl-year">2025 — Q4</div>
+
+    <div class="tl-item s-closed" data-co="howard">
+      <div class="tl-node"><div class="tl-circle"></div></div>
+      <div class="tl-card" onclick="toggle(this)">
+        <div class="tl-card-top"><span class="tl-date">Oct. 16, 2025</span><span class="tl-status">Closed</span></div>
+        <div class="tl-companies">Howard Hanna acquires Elegran Real Estate</div>
+        <div class="tl-detail collapsed">Enters Manhattan. Howard Hanna becomes the largest brokerage in New York State by agent count and homes sold. Elegran CEO Michael Rossi stays on. Howard Hanna now connects NYC through Long Island, Westchester, Connecticut, Hudson Valley and Northern New Jersey. The company describes itself as the nation's largest privately held brokerage and fifth-largest overall.</div>
+        <span class="tl-more">Show more ↓</span>
+      </div>
+    </div>
+
+    <div class="tl-year">2026 — Q1</div>
+
+    <div class="tl-item s-closed" data-co="compass anywhere">
+      <div class="tl-node"><div class="tl-circle"></div></div>
+      <div class="tl-card" onclick="toggle(this)">
+        <div class="tl-card-top"><span class="tl-date">Jan. 9, 2026</span><span class="tl-status">Closed</span></div>
+        <div class="tl-companies">Compass — Anywhere acquisition closes</div>
+        <div class="tl-detail collapsed">Closes months ahead of projected H2 2026 timeline. ~99% of Compass votes in favor; ~72% of Anywhere votes in favor. Anywhere survives as a wholly owned Compass subsidiary; HOUS delisted from NYSE. Combined company: ~340,000 agents across ~120 countries. Compass issues $1B in convertible notes to retire Anywhere debt. Confirmed by SEC 8-K.</div>
+        <span class="tl-more">Show more ↓</span>
+      </div>
+    </div>
+
+    <div class="tl-item s-closed" data-co="howard">
+      <div class="tl-node"><div class="tl-circle"></div></div>
+      <div class="tl-card" onclick="toggle(this)">
+        <div class="tl-card-top"><span class="tl-date">Jan. 28, 2026</span><span class="tl-status">Closed</span></div>
+        <div class="tl-companies">Howard Hanna expands into Philadelphia</div>
+        <div class="tl-detail collapsed">Partnership with Art Herling team — ~139 agents, $289.7M in 2024 sales across four offices in the Philadelphia metro. Part of Howard Hanna's stated Eastern Seaboard strategy targeting NYC, Philly, D.C. and Baltimore.</div>
+        <span class="tl-more">Show more ↓</span>
+      </div>
+    </div>
+
+    <div class="tl-year">2026 — Q2</div>
+
+    <div class="tl-item s-signed" data-co="real">
+      <div class="tl-node"><div class="tl-circle"></div></div>
+      <div class="tl-card" onclick="toggle(this)">
+        <div class="tl-card-top"><span class="tl-date">April 26, 2026</span><span class="tl-status">Agreement signed</span></div>
+        <div class="tl-companies">Real / REMAX — definitive agreement signed</div>
+        <div class="tl-detail collapsed">Arrangement Agreement and Plan of Merger executed April 26 and filed with the SEC. Publicly announced the following morning, April 27. The one-day gap between signing and announcement mirrors the Rocket/Redfin pattern and is confirmed by SEC filings from both companies.</div>
+        <span class="tl-more">Show more ↓</span>
+      </div>
+    </div>
+
+    <div class="tl-item s-pending" data-co="real">
+      <div class="tl-node"><div class="tl-circle"></div></div>
+      <div class="tl-card" onclick="toggle(this)">
+        <div class="tl-card-top"><span class="tl-date">April 27, 2026</span><span class="tl-status">Announced; pending</span></div>
+        <div class="tl-companies">Real Brokerage to acquire REMAX Holdings</div>
+        <div class="tl-detail collapsed">$880M enterprise value. Creates "Real REMAX Group." Real shareholders to own ~59%, REMAX shareholders ~41%. Combines Real's AI/cloud platform with REMAX's ~8,500 franchises, ~145,000 agents and Motto Mortgage. Real CEO Tamir Poleg to lead combined company, headquartered in Miami. $550M financing commitment from Morgan Stanley and Apollo. REMAX carried $436.8M in outstanding debt as of Dec. 31, 2025. Close expected H2 2026, pending regulatory and shareholder approval.</div>
+        <span class="tl-more">Show more ↓</span>
+      </div>
+    </div>
+
+    <div class="tl-item s-closed" data-co="exp">
+      <div class="tl-node"><div class="tl-circle"></div></div>
+      <div class="tl-card" onclick="toggle(this)">
+        <div class="tl-card-top"><span class="tl-date">May 7, 2026</span><span class="tl-status">Closed</span></div>
+        <div class="tl-companies">eXp World Holdings acquires NextHome</div>
+        <div class="tl-detail collapsed">Announced and closed simultaneously. Financial terms undisclosed; eXp used cash on hand. Adds 500+ NextHome franchisees. eXp transitions to a "multi-model platform" supporting both cloud brokerage and franchise models. Nasdaq ticker changes from EXPI to AGNT effective May 8. NextHome co-CEOs James Dwiggins and Keith Robinson remain as President and President of Strategy. Confirmed by SEC 8-K.</div>
+        <span class="tl-more">Show more ↓</span>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<script>
+function toggle(card) {
+  var detail = card.querySelector('.tl-detail');
+  var more = card.querySelector('.tl-more');
+  var isOpen = !detail.classList.contains('collapsed');
+  detail.classList.toggle('collapsed', isOpen);
+  more.textContent = isOpen ? 'Show more \u2193' : 'Show less \u2191';
+}
+
+function filterAll(btn) {
+  document.querySelectorAll('.tl-btn').forEach(function(b) { b.classList.remove('active'); });
+  btn.classList.add('active');
+  document.querySelectorAll('.tl-item').forEach(function(item) { item.classList.remove('hidden'); });
+  document.querySelectorAll('.tl-year').forEach(function(y) { y.style.display = ''; });
+}
+
+function filterCo(btn, co) {
+  document.querySelectorAll('.tl-btn').forEach(function(b) { b.classList.remove('active'); });
+  btn.classList.add('active');
+  document.querySelectorAll('.tl-item').forEach(function(item) {
+    var itemCo = item.getAttribute('data-co') || '';
+    item.classList.toggle('hidden', itemCo.indexOf(co) === -1);
+  });
+  document.querySelectorAll('.tl-year').forEach(function(yr) {
+    var next = yr.nextElementSibling;
+    var hasVisible = false;
+    while (next && !next.classList.contains('tl-year')) {
+      if (!next.classList.contains('hidden')) hasVisible = true;
+      next = next.nextElementSibling;
+    }
+    yr.style.display = hasVisible ? '' : 'none';
+  });
+}
+</script>
+
+</body>
+</html>
